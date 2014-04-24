@@ -14,6 +14,7 @@ qi_create_bin(nao_touch_sensors
   
   src/proxies/memory_proxy.cpp
   src/proxies/text_to_speech_proxy.cpp
+  src/proxies/sensors_proxy.cpp
   
   src/local_broker/local_broker.cpp
 )

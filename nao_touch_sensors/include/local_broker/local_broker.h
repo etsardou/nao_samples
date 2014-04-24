@@ -16,10 +16,9 @@
 
 #include <althread/almutex.h>
 
-#include <alproxies/altexttospeechproxy.h> //!< Text to speech
+#include <alproxies/altexttospeechproxy.h> //!< To access text to speech proxy
 #include <alproxies/almemoryproxy.h> // To access ALMemory.  
-
-
+#include <alproxies/alsensorsproxy.h> // To access sensors proxy.  
   
 class LocalBroker
 {
