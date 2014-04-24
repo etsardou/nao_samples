@@ -4,8 +4,8 @@ MemoryProxy::MemoryProxy(boost::shared_ptr<AL::ALBroker> broker)
 {
   try 
   {  
-    memory_proxy = boost::shared_ptr<AL::ALMemoryProxy>
-      (new AL::ALMemoryProxy(broker));  
+    proxy = 
+      boost::shared_ptr<AL::ALMemoryProxy>(new AL::ALMemoryProxy(broker));  
   } 
   catch (const AL::ALError& e) 
   {  

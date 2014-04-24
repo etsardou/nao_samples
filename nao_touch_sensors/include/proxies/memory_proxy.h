@@ -9,7 +9,7 @@ class MemoryProxy
 {
   public:
     
-    boost::shared_ptr<AL::ALMemoryProxy> memory_proxy; 
+    boost::shared_ptr<AL::ALMemoryProxy> proxy; 
     
     MemoryProxy(void){}
     
@@ -17,3 +17,10 @@ class MemoryProxy
 };
 
 #endif
+
+/**
+Sample:
+  MemoryProxy mp(lb.broker);
+  std::string sx = "Device/SubDeviceList/InertialSensor/AngleX/Sensor/Value";
+  float tt = mp.proxy->getData(intertialSensorXKey);
+**/

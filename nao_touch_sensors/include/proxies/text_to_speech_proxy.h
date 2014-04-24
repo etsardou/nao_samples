@@ -9,11 +9,20 @@ class TextToSpeechProxy
 {
   public:
     
-    boost::shared_ptr<AL::ALTextToSpeechProxy> text_to_speech_proxy; 
+    boost::shared_ptr<AL::ALTextToSpeechProxy> proxy; 
     
     TextToSpeechProxy(void){}
     
     TextToSpeechProxy(boost::shared_ptr<AL::ALBroker> broker);
+    
+    void say(std::string phrase);
 };
 
 #endif
+
+/**
+Sample:
+  TextToSpeechProxy t2sp(lb.broker);
+  const std::string phraseToSay("Hello world");
+  t2sp.proxy->say(phraseToSay);
+**/
