@@ -3,13 +3,18 @@ project(nao_touch_sensors)
 
 find_package(qibuild)
 
+include_directories(
+  include
+)
 # Create a executable named nao_touch_sensors
 # with the source file: main.cpp
 qi_create_bin(nao_touch_sensors 
-  main.cpp
-  bumpers.cpp
-  memory_proxy.cpp
-  local_broker.cpp
+  src/main.cpp
+  src/bumpers.cpp
+  
+  src/proxies/memory_proxy.cpp
+  
+  src/local_broker/local_broker.cpp
 )
 
 qi_use_lib(nao_touch_sensors 

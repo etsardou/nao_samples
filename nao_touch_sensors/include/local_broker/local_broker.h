@@ -13,8 +13,10 @@
 #include <alerror/alerror.h> 
  
 #include <alcommon/almodule.h>
-#include <alproxies/altexttospeechproxy.h>
+
 #include <althread/almutex.h>
+
+#include <alproxies/altexttospeechproxy.h> //!< Text to speech
 #include <alproxies/almemoryproxy.h> // To access ALMemory.  
 
 

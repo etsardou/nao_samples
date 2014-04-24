@@ -1,4 +1,4 @@
-#include "memory_proxy.h"
+#include "proxies/memory_proxy.h"
 
 MemoryProxy::MemoryProxy(boost::shared_ptr<AL::ALBroker> broker)
 {

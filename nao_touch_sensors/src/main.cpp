@@ -1,5 +1,5 @@
 #include "bumpers.h"
-#include "memory_proxy.h"
+#include "proxies/memory_proxy.h"
   
 int main(int argc, char* argv[]) { 
   
