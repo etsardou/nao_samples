@@ -1,5 +1,8 @@
 #include "local_broker/local_broker.h"
 
+/**
+* @brief The default contructor
+*/
 LocalBroker::LocalBroker(int argc, char* argv[])
 {
   std::string parentBrokerIP;  
@@ -14,7 +17,10 @@ LocalBroker::LocalBroker(int argc, char* argv[])
   // Our own broker, connected to NAO's:  
   broker = makeLocalBroker(parentBrokerIP, parentBrokerPort);  
 }
-  
+ 
+/**
+* @brief Parses the input arguments to detect NAO's IP and port
+*/
 void LocalBroker::parseOpt
   (std::string* naoBrokerIP, int* naoBrokerPort, int argc, char* argv[]) 
 {  
@@ -23,11 +29,11 @@ void LocalBroker::parseOpt
   
   po::options_description desc("Allowed options");  
   desc.add_options()  
-      ("pip", po::value<std::string>(naoBrokerIP)->
-        default_value("169.254.40.81"), 
-        "IP of the parent broker. Default: 169.254.40.81")  
-      ("pport", po::value<int>(naoBrokerPort)->default_value(9559), 
-        "Port of the parent broker. Default: 9559");  
+    ("pip", po::value<std::string>(naoBrokerIP)->
+      default_value("169.254.40.81"), 
+      "IP of the parent broker. Default: 169.254.40.81")  
+    ("pport", po::value<int>(naoBrokerPort)->default_value(9559), 
+      "Port of the parent broker. Default: 9559");  
         
   // Map containing all the options with their values        
   po::variables_map vm; 
@@ -44,7 +50,11 @@ void LocalBroker::parseOpt
     exit(1);  
   }  
 }  
-  
+
+/**
+* @brief Connects the local broker to the real NAO's broker through\
+*  BrokerManger
+*/
 boost::shared_ptr<AL::ALBroker> LocalBroker::makeLocalBroker
   (const std::string parentBrokerIP, int parentBrokerPort) 
 {  

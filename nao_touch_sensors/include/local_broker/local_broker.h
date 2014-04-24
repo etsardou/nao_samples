@@ -19,20 +19,44 @@
 #include <alproxies/altexttospeechproxy.h> //!< To access text to speech proxy
 #include <alproxies/almemoryproxy.h> // To access ALMemory.  
 #include <alproxies/alsensorsproxy.h> // To access sensors proxy.  
-  
+
+/**
+@class LocalBroker
+@brief The base class for a local broker. With this broker you can remotely \
+connect to the real NAO's proxies  
+**/
 class LocalBroker
 {
+  private:
+  
+    /**
+     * @brief Connects the local broker to the real NAO's broker through\
+     *  BrokerManger
+     */
+    boost::shared_ptr<AL::ALBroker> makeLocalBroker
+      (const std::string parentBrokerIP, int parentBrokerPort);
+      
   public:
   
+    //!< The local broker
     boost::shared_ptr<AL::ALBroker> broker;  
   
+    /**
+     * @brief The default contructor
+     */
     LocalBroker(int argc, char* argv[]);
   
+    /**
+     * @brief Parses the input arguments to detect NAO's IP and port
+     * @param naoBrokerIP [std::string*] The IP (default 169.254.40.81)
+     * @param naoBrokerPort [std::string*] The port (default 9559)
+     * @param argc [int] Number of input arguments
+     * @param argv [char* []] The input arguments
+     */
     void parseOpt
       (std::string* naoBrokerIP, int* naoBrokerPort, int argc, char* argv[]); 
       
-    boost::shared_ptr<AL::ALBroker> makeLocalBroker
-      (const std::string parentBrokerIP, int parentBrokerPort);
+    
 };
 
 #endif

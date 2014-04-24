@@ -1,5 +1,6 @@
 #include "bumpers.h"
-//~ #include "proxies/memory_proxy.h"
+
+#include "proxies/memory_proxy.h"
 #include "proxies/text_to_speech_proxy.h"
 #include "proxies/sensors_proxy.h"
   
