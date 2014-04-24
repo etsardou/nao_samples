@@ -20,6 +20,8 @@ template<class T> class ProxyBase
         exit(3);
       }
     }  
+    
+    ProxyBase(void){}
 };
 
 #endif

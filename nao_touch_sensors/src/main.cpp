@@ -1,15 +1,39 @@
 #include "bumpers.h"
+#include <signal.h>
 
-#include "proxies/memory_proxy.h"
-#include "proxies/text_to_speech_proxy.h"
-#include "proxies/sensors_proxy.h"
+#include <alcommon/albroker.h>
+#include <alcommon/almodule.h>
+#include <alcommon/albrokermanager.h>
+#include <alcommon/altoolsmain.h>
+
+#define ALCALL
+
+extern "C"
+{
+  ALCALL int _createModule(boost::shared_ptr<AL::ALBroker> pBroker)
+  {
+    // init broker with the main broker instance
+    // from the parent executable
+    AL::ALBrokerManager::setInstance(pBroker->fBrokerManager.lock());
+    AL::ALBrokerManager::getInstance()->addBroker(pBroker);
+      AL::ALModule::createModule<Bumper>( pBroker, "Bumper" );
+
+    return 0;
+  }
+
+  ALCALL int _closeModule()
+  {
+    return 0;
+  }
+}
   
 int main(int argc, char* argv[]) { 
-  
-  LocalBroker lb(argc, argv);
 
-  TextToSpeechProxy t2sp(lb.broker);
-  t2sp.say("hi there"); 
-  t2sp.say("who are you?"); 
+  // pointer to createModule
+  TMainType sig;
+  sig = &_createModule;
+  // call main
+  ALTools::mainFunction("bumper", argc, argv, sig);
+  
   return 0;  
 }  
