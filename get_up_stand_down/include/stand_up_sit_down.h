@@ -8,7 +8,13 @@
 #include "proxies/motion_proxy.h"
 #include "proxies/text_to_speech_proxy.h"
 #include "proxies/robot_posture_proxy.h"
+#include "proxies/speech_recognition_proxy.h"
 
+enum NAO_STATE
+{
+  COMMAND,
+  CONFIRMATION
+};
 
 class StandUpSitDown : public AL::ALModule
 {
@@ -17,8 +23,12 @@ class StandUpSitDown : public AL::ALModule
     TextToSpeechProxy text_to_speech_proxy_;
     MotionProxy motion_proxy_;
     RobotPostureProxy robot_posture_proxy_;
+    SpeechRecognitionProxy speech_recognition_proxy_;
     
     boost::shared_ptr<AL::ALMutex> fCallbackMutex;
+    
+    NAO_STATE robot_state_;
+    std::string last_command_;
   
   public:
     StandUpSitDown(boost::shared_ptr<AL::ALBroker> broker, 
@@ -28,6 +38,13 @@ class StandUpSitDown : public AL::ALModule
     * This is called right after the module has been loaded
     */
     virtual void init();
+    
+    //!< Event callbacks
+    void onWordRecognized(
+      const std::string& name,
+      const AL::ALValue& val,
+      const std::string& myName
+    );
 };
 
 #endif

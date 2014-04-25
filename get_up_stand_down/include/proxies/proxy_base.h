@@ -8,6 +8,7 @@
 #include <alproxies/alsensorsproxy.h> // To access sensors proxy.  
 #include <alproxies/almotionproxy.h> // To access sensors proxy. 
 #include <alproxies/alrobotpostureproxy.h> // To set predefined robot postures 
+#include <alproxies/alspeechrecognitionproxy.h>
 
 template<class T> class ProxyBase
 {

@@ -17,6 +17,7 @@ qi_create_bin(stand_up_sit_down
   src/proxies/sensors_proxy.cpp
   src/proxies/motion_proxy.cpp
   src/proxies/robot_posture_proxy.cpp
+  src/proxies/speech_recognition_proxy.cpp
   
   src/local_broker/local_broker.cpp
 )
