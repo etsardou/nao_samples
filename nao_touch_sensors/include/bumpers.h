@@ -3,12 +3,14 @@
 
 #include "proxies/memory_proxy.h"
 #include "proxies/text_to_speech_proxy.h"
+#include <althread/alcriticalsection.h>
 
 class Bumper : public AL::ALModule
 {
   private:
     MemoryProxy mp;
     TextToSpeechProxy t2sp;
+    boost::shared_ptr<AL::ALMutex> fCallbackMutex;
   
   public:
     Bumper(boost::shared_ptr<AL::ALBroker> broker, 
@@ -19,9 +21,12 @@ class Bumper : public AL::ALModule
     */
     virtual void init();
     
+    //!< Event callbacks
     void onRightBumperPressed(void);
-    
     void onLeftBumperPressed(void);
+    void onMiddleTactilPressed(void);
+    void onFrontTactilPressed(void);
+    void onRearTactilPressed(void);
 };
 
 #endif
