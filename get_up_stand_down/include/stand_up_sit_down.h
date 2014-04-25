@@ -29,6 +29,10 @@ class StandUpSitDown : public AL::ALModule
     
     NAO_STATE robot_state_;
     std::string last_command_;
+    
+    void initialize_vocal(void);
+    void terminate_vocal(void);
+    void prompt(std::string command_);
   
   public:
     StandUpSitDown(boost::shared_ptr<AL::ALBroker> broker, 

@@ -23,30 +23,10 @@ StandUpSitDown::StandUpSitDown(
 
 void StandUpSitDown::init() {
   try {
-    
-    //!< Makes a "beep" when enabling and disabling the process
-    speech_recognition_proxy_.proxy->setAudioExpression(true);
-    speech_recognition_proxy_.proxy->setVisualExpression(true);
-    
-    std::vector<std::string> vocabulary;
-    vocabulary.push_back("stand");
-    vocabulary.push_back("sit");
-    vocabulary.push_back("exit");
-    speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
-  
-    memory_proxy_.proxy->subscribeToEvent(
-      "WordRecognized", 
-      getName(),
-      "onWordRecognized"
-    );
-
+    initialize_vocal();
   }
   catch (const AL::ALError& e) {
-    std::cout<< "Error" << e.what() << std::endl;
-    memory_proxy_.proxy->unsubscribeToEvent(
-      "WordRecognized", 
-      getName()
-    );
+    terminate_vocal();
   }
 }
 
@@ -57,10 +37,7 @@ void StandUpSitDown::onWordRecognized(
   const std::string& myName)
 {
   
-  memory_proxy_.proxy->unsubscribeToEvent(
-    "WordRecognized", 
-    getName()
-  );
+  terminate_vocal();
   
   std::cout<<"Command taken\n";
 
@@ -82,28 +59,10 @@ void StandUpSitDown::onWordRecognized(
   
   if(robot_state_ == COMMAND)
   {
-    text_to_speech_proxy_.say(std::string("did you say") + command + 
-      std::string("?"));
-      
-    last_command_ = command;
-    
-    robot_state_ = CONFIRMATION;
-    
-    std::vector<std::string> vocabulary;
-    vocabulary.push_back("yes");
-    vocabulary.push_back("no");
-    speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
-    
-    memory_proxy_.proxy->subscribeToEvent(
-      "WordRecognized", 
-      getName(),
-      "onWordRecognized"
-    );
+    prompt(command);
   }
   else if(robot_state_ == CONFIRMATION)
   {
-    
-    
     if(command == "\"yes\"" && last_command_ == "\"exit\"")
     {
       std::cout<<"Executing exit\n";
@@ -116,16 +75,17 @@ void StandUpSitDown::onWordRecognized(
       robot_posture_proxy_.proxy->goToPosture("Stand",1.0);
       text_to_speech_proxy_.say("Stand posture");
       
-      std::vector<std::string> vocabulary;
-      vocabulary.push_back("stand");
-      vocabulary.push_back("sit");
-      vocabulary.push_back("exit");
-      speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
-      memory_proxy_.proxy->subscribeToEvent(
-        "WordRecognized", 
-        getName(),
-        "onWordRecognized"
-      );
+      initialize_vocal();
+    }
+    else if(command == "\"yes\"" && last_command_ == "\"crouch\"")
+    {
+      std::cout<<"Executing stand\n";
+      motion_proxy_.proxy->wakeUp();
+      text_to_speech_proxy_.say("Stifness on");
+      robot_posture_proxy_.proxy->goToPosture("Crouch",1.0);
+      text_to_speech_proxy_.say("Crouch posture");
+      
+      initialize_vocal();
     }
     else if(command == "\"yes\"" && last_command_ == "\"sit\"")
     {
@@ -134,37 +94,61 @@ void StandUpSitDown::onWordRecognized(
       text_to_speech_proxy_.say("Sit posture");
       motion_proxy_.proxy->rest();
       text_to_speech_proxy_.say("Stifness off");
-      std::vector<std::string> vocabulary;
-      vocabulary.push_back("stand");
-      vocabulary.push_back("sit");
-      vocabulary.push_back("exit");
-      speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
-      memory_proxy_.proxy->subscribeToEvent(
-        "WordRecognized", 
-        getName(),
-        "onWordRecognized"
-      );
+      
+      initialize_vocal();
     }
-    else if(command == "\"no\"")
+    else
     {
-      std::vector<std::string> vocabulary;
-      vocabulary.push_back("stand");
-      vocabulary.push_back("sit");
-      vocabulary.push_back("exit");
-      speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
-      memory_proxy_.proxy->subscribeToEvent(
-        "WordRecognized", 
-        getName(),
-        "onWordRecognized"
-      );
+      initialize_vocal();
     }
-    
-    robot_state_ = COMMAND;
-    last_command_ = "";
   }
 }
 
+void StandUpSitDown::initialize_vocal(void)
+{
+  robot_state_ = COMMAND;
+  last_command_ = "";
+  std::vector<std::string> vocabulary;
+  vocabulary.push_back("stand");
+  vocabulary.push_back("sit");
+  vocabulary.push_back("crouch");
+  vocabulary.push_back("exit");
+  speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
+  memory_proxy_.proxy->subscribeToEvent(
+    "WordRecognized", 
+    getName(),
+    "onWordRecognized"
+  );
+}
+
+void StandUpSitDown::terminate_vocal(void)
+{
+  memory_proxy_.proxy->unsubscribeToEvent(
+    "WordRecognized", 
+    getName()
+  );
+}
+
+void StandUpSitDown::prompt(std::string command_)
+{
+  text_to_speech_proxy_.say(std::string("did you say") + command_ + 
+    std::string("?"));
+      
+  last_command_ = command_;
     
+  robot_state_ = CONFIRMATION;
+  
+  std::vector<std::string> vocabulary;
+  vocabulary.push_back("yes");
+  vocabulary.push_back("no");
+  speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
+  
+  memory_proxy_.proxy->subscribeToEvent(
+    "WordRecognized", 
+    getName(),
+    "onWordRecognized"
+  );
+}
     //~ motion_proxy_.proxy->wakeUp();
     //~ text_to_speech_proxy_.say("Stifness on");
     //~ 
