@@ -67,7 +67,7 @@ void StandUpSitDown::onWordRecognized(
     {
       std::cout<<"Executing exit\n";
     }
-    else if(command == "\"yes\"" && last_command_ == "\"stand\"")
+    else if(command == "\"yes\"" && last_command_ == "\"up\"")
     {
       std::cout<<"Executing stand\n";
       motion_proxy_.proxy->wakeUp();
@@ -109,7 +109,7 @@ void StandUpSitDown::initialize_vocal(void)
   robot_state_ = COMMAND;
   last_command_ = "";
   std::vector<std::string> vocabulary;
-  vocabulary.push_back("stand");
+  vocabulary.push_back("up");
   vocabulary.push_back("sit");
   vocabulary.push_back("crouch");
   vocabulary.push_back("exit");
