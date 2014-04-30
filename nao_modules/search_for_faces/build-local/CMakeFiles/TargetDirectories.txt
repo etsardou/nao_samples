@@ -1,0 +1,1 @@
+/home/manos/Desktop/nao_development/workspace/nao_samples/nao_modules/search_for_faces/build-local/CMakeFiles/search_for_faces_node.dir

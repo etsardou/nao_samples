@@ -1,0 +1,1 @@
+/home/manos/Desktop/nao_development/workspace/nao_samples/nao_touch_sensors/build-local/CMakeFiles/nao_touch_sensors.dir

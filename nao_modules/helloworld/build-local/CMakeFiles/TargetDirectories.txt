@@ -1,0 +1,2 @@
+/home/manos/Desktop/nao_development/workspace/nao_samples/helloworld/build-local/CMakeFiles/helloworld.dir
+/home/manos/Desktop/nao_development/workspace/nao_samples/helloworld/build-local/CMakeFiles/testhelloworld.dir
