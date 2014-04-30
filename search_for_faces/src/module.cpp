@@ -48,9 +48,9 @@ void Module::initialize_vocal(void)
   robot_state_ = COMMAND;
   last_command_ = "";
   std::vector<std::string> vocabulary;
-  //~ vocabulary.push_back("up");
-  //~ vocabulary.push_back("sit");
-  //~ vocabulary.push_back("crouch");
+  vocabulary.push_back("up");
+  vocabulary.push_back("sit");
+  vocabulary.push_back("crouch");
   vocabulary.push_back("quit");
   vocabulary.push_back("face");
   speech_recognition_proxy_.proxy->setWordListAsVocabulary(vocabulary);
@@ -149,6 +149,7 @@ void Module::onWordRecognized(
 {
   
   terminate_vocal();
+  terminate_face();
   
   std::cout<<"Command taken\n";
 
